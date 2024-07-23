@@ -1,23 +1,27 @@
+// db.js
 const { Sequelize } = require('sequelize');
-const dotenv = require('dotenv');
+require('dotenv').config(); // Asegúrate de que esto esté al principio
 
-dotenv.config();
+// Crear instancia de Sequelize usando variables de entorno
+const sequelize = new Sequelize(
+  'GrupoVerde',       // Nombre de la base de datos
+  'postgres',         // Usuario
+  'gatanovia',        // Contraseña
+  {
+    host: 'localhost', // Host de la base de datos
+    dialect: 'postgres',       // Tipo de base de datos
+    port: 5432,       // Puerto (5432 es el valor por defecto para PostgreSQL)
+    logging: false            // Desactiva el logging (opcional)
+  }
+);
 
-// Configurar Sequelize con las variables de entorno
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'mysql',
-  logging: false, // Puedes desactivar los logs de Sequelize si lo deseas
-});
-
-// Verificar la conexión inicial con Sequelize
+// Verifica la conexión a la base de datos
 sequelize.authenticate()
   .then(() => {
-    console.log('Connected to the database.');
+    console.log('Connection has been established successfully.');
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
-    process.exit(1); // Salir del proceso con un código de error
   });
 
 module.exports = sequelize;
