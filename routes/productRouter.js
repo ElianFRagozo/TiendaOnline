@@ -18,4 +18,30 @@ router.put('/:id', authMiddleware, productController.updateProduct);
 // Eliminar un producto
 router.delete('/:id', productController.deleteProduct);
 
+
+
+// Obtener todas las categorías
+router.get('/', productController.getAllCategories);
+
+// Crear una nueva categoría (requiere autenticación)
+router.post('/',  productController.createCategory);
+
+// Actualizar una categoría existente (requiere autenticación)
+router.put('/:id', productController.updateCategory);
+
+// Eliminar una categoría
+router.delete('/:id', productController.deleteCategory);
+
+
+
+// Obtener todas las etiquetas
+router.get('/', productController.getAllTags);
+
+// Crear una nueva etiqueta (requiere autenticación)
+router.post('/', productController.createTag);
+
+// Eliminar una etiqueta
+router.delete('/:id', productController.deleteTag);
+
+
 module.exports = router;
