@@ -18,11 +18,11 @@ app.get('/', (req, res) => {
 // Middleware para parsear JSON
 app.use(express.json());
 
-
-
-
-// Usar rutas
 app.use( '/products' ,productRoutes);
+app.use('/categories', productRoutes);
+app.use('/tags', productRoutes);
+
+
 
 // Middleware para servir archivos estáticos desde la carpeta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
