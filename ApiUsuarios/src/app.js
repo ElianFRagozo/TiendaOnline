@@ -12,6 +12,8 @@ const port = process.env.PORT || 3000; // Utiliza el puerto de las variables de 
 const sequelize = require('../db/db'); // Asegúrate de que la ruta sea correcta
 const User = require('../models/userModel');
 
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
+
 // Importar rutas
 const userRoutes = require('../routes/userRouter'); // Asegúrate de que la ruta sea correcta
 

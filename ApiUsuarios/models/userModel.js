@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db'); // Asegúrate de importar desde tu archivo de configuración de Sequelize
-const bcrypt = require('bcrypt'); // Asegúrate de haber instalado bcrypt
+const argon2 = require('argon2'); // Asegúrate de haber instalado argon2
 
 const User = sequelize.define('User', {
   id: {
@@ -40,14 +40,12 @@ const User = sequelize.define('User', {
   hooks: {
     beforeCreate: async (user) => {
       if (user.password_hash) {
-        const salt = await bcrypt.genSalt(10);
-        user.password_hash = await bcrypt.hash(user.password_hash, salt);
+        user.password_hash = await argon2.hash(user.password_hash);
       }
     },
     beforeUpdate: async (user) => {
       if (user.password_hash) {
-        const salt = await bcrypt.genSalt(10);
-        user.password_hash = await bcrypt.hash(user.password_hash, salt);
+        user.password_hash = await argon2.hash(user.password_hash);
       }
     }
   }

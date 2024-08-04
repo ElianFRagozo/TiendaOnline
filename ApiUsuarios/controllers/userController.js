@@ -1,16 +1,13 @@
-// controllers/userController.js
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-
+const argon2 = require('argon2');
 
 // Crear un nuevo usuario
 const createUser = async (req, res) => {
   const { name, email, password, address, phone } = req.body;
   try {
     // Generar hash de la contraseña
-    const salt = await bcrypt.genSalt(10);
-    const password_hash = await bcrypt.hash(password, salt);
+    const password_hash = await argon2.hash(password);
 
     // Crear usuario con el hash de la contraseña
     const user = await User.create({ name, email, password_hash, address, phone });
@@ -24,6 +21,7 @@ const createUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 // Login de usuario
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -31,7 +29,7 @@ const login = async (req, res) => {
     const user = await User.findOne({ where: { email } });
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await argon2.verify(user.password_hash, password);
     if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
 
     const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });

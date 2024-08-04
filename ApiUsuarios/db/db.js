@@ -6,7 +6,7 @@ require('dotenv').config(); // Asegúrate de que esto esté al principio
 const sequelize = new Sequelize(
   'GrupoVerdeUser',       // Nombre de la base de datos
   'postgres',         // Usuario
-  'gatanovia',        // Contraseña
+  '12345',        // Contraseña
   {
     host: 'localhost', // Host de la base de datos
     dialect: 'postgres',       // Tipo de base de datos
